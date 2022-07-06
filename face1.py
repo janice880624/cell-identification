@@ -1,17 +1,16 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 import cv2
-image = cv2.imread('cell (7).png')
+image = cv2.imread('face2/cell (7).png')
 kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
 kernel2 = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))
 ok = True
 while ok:
-    
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
     blurred = cv2.blur(gray,(5,5))
     
     erosion1 = cv2.erode(blurred , kernel, iterations=2)
+
+    
     x = cv2.Sobel(blurred, cv2.CV_64F, 1, 0)
     y = cv2.Sobel(blurred, cv2.CV_64F, 0, 1)
     absX = cv2.convertScaleAbs(x)# 轉回uint8

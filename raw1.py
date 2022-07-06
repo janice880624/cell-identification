@@ -1,7 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 import cv2
-image = cv2.imread('cell (7).png')
+image = cv2.imread('raw/cell (7).png')
 kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
 kernel2 = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))
 ok = True
@@ -26,12 +24,14 @@ while ok:
     
     inv = 255-thr1
 
-    cv2.imshow("otsu2", thr1)
-    cv2.imshow("sobel1", dst1)
-    cv2.imshow('erosion',erosion)
-    cv2.imshow('closing', closing)
+    cv2.imshow("gray", gray)
 
-    cv2.imwrite('erosion.png', erosion)
+    # cv2.imshow("otsu2", thr1)
+    # cv2.imshow("sobel1", dst1)
+    # cv2.imshow('erosion',erosion)
+    # cv2.imshow('closing', closing)
+
+    # cv2.imwrite('erosion.png', erosion)
     # cv2.imwrite('2.png', dst2)
     cv2.waitKey(0)
     if cv2.waitKey(0) == 27:
