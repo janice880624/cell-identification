@@ -9,7 +9,6 @@ while ok:
     blurred = cv2.blur(gray,(5,5))
     
     erosion1 = cv2.erode(blurred , kernel, iterations=2)
-
     
     x = cv2.Sobel(blurred, cv2.CV_64F, 1, 0)
     y = cv2.Sobel(blurred, cv2.CV_64F, 0, 1)
@@ -26,7 +25,7 @@ while ok:
     inv = 255-thr1
 
     cv2.imshow("otsu2", thr1)
-    cv2.imshow("sobel1", dst1)
+    cv2.imshow("dst1", dst1)
     cv2.imshow('erosion',erosion)
     cv2.imshow('closing', closing)
 

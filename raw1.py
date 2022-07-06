@@ -28,7 +28,7 @@ while ok:
 
     # cv2.imshow("otsu2", thr1)
     # cv2.imshow("sobel1", dst1)
-    # cv2.imshow('erosion',erosion)
+    cv2.imshow('erosion',erosion)
     # cv2.imshow('closing', closing)
 
     # cv2.imwrite('erosion.png', erosion)
