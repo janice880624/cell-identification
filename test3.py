@@ -4,7 +4,7 @@ import numpy as np
 num = 50
 
 def main(img, str):
-  # 显示灰度图
+  # 顯示灰階圖
   img1 = cv2.imread(img,0)
   # cv2.imshow("img1",img1)
 
@@ -16,7 +16,7 @@ def main(img, str):
   img3 = cv2.bitwise_not(img2)
   # cv2.imshow("img3", img3)
 
-  # 图像擴展
+  # 圖像擴展
   img4 = cv2.copyMakeBorder(img3, 1, 1, 1, 1, cv2.BORDER_REFLECT)
   # cv2.imshow("img4", img4)
 
