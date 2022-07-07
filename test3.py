@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-num = 10
+num = 50
 
 def main(img, str):
   # 显示灰度图
