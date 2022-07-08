@@ -13,7 +13,6 @@ def main(image_path):
   ok = True
   while ok:
     img = cv2.imread(image_path)  
-    img = cv2.resize(img, (800, 800)) 
     cv2.imshow('img',img)
 
     print(img.shape)
