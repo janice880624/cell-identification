@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 
-path = "exp20/img(150).png"
+path = "exp20/img(300).png"
 # path = "aaa.png"
 
 
