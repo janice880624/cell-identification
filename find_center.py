@@ -1,9 +1,8 @@
 import cv2
 import numpy as np
 
-path = "exp20/img(240).png"
+path = "exp20/img(500).png"
 # path = "aaa.png"
-
 
 def main(image_path):
 
@@ -33,7 +32,7 @@ def main(image_path):
         print(contours[i].shape)
         approx = cv2.approxPolyDP(contours[i], 20, True)
         cv2.drawContours(image,[approx], 0, (0,255,0), 1)
-        cv2.imshow('ori_image', image)
+        # cv2.imshow('ori_image{}'.format(i), image)
 
         con_list = contours[i].tolist()
 
@@ -50,26 +49,37 @@ def main(image_path):
         y_u, y_d = con_list[0][0][1]-border, con_list[1][0][1]+border
 
         crop_img = image[y_u:y_d, x_l:x_r]
-        cv2.imshow('crop_img{}'.format(i), image)
+        # cv2.imshow('crop_img{}'.format(i), image)
 
         gray1 = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
         ret, th1 = cv2.threshold(gray1,150 , 255, cv2.THRESH_BINARY)
-        cv2.imshow('th1{}'.format(i), th1)
+        # cv2.imshow('th1{}'.format(i), th1)
 
         erosion = cv2.erode(th1 , kernel, iterations=2)
         dilation = cv2.dilate(th1 , kernel2, iterations = 2)
         cv2.imshow('dilation{}'.format(i), dilation)
 
         canny = cv2.Canny(dilation, 50, 250)
-        cv2.imshow('canny{}'.format(i), canny)
+        # cv2.imshow('canny{}'.format(i), canny)
 
         contours1, hierarchy1 = cv2.findContours(canny, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         print(len(contours1))
-        circles = cv2.HoughCircles(canny, cv2.HOUGH_GRADIENT, 1, 100, param1=100, param2=30, minRadius=100, maxRadius=200)
+
+        # color_img = cv2.cvtColor(dilation, cv2.COLOR_GRAY2BGR)
+        # cv2.imshow('color_img{}'.format(i), color_img)
+        
+        thresh = cv2.threshold(dilation, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+        cv2.imshow('thresh{}'.format(i), thresh)
+
+        contours2, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        img_contour = cv2.drawContours(crop_img, contours2, -1, (0, 255, 0), 2)
+        cv2.imshow('img_contour{}'.format(i), img_contour)
+
 
       else:
         continue
 
+    cv2.imshow('final_image'.format(i), image)
     cv2.waitKey(0)
 
     if cv2.waitKey(0) == 27:
