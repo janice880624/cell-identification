@@ -15,7 +15,7 @@ def main(image_path):
     image = cv2.imread(image_path)  
 
     # 灰階
-    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # 二值化
     ret, thr = cv2.threshold(gray, 50, 255, cv2.THRESH_OTSU)
