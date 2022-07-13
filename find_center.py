@@ -3,7 +3,7 @@
 
 import cv2
 
-path = "exp20/img(240).png"
+path = "exp20/img(843).png"
 point = []
 def main(image_path):
 
@@ -36,7 +36,7 @@ def main(image_path):
         # print(con_list[2][0]) # 右下
         # print(con_list[3][0]) # 右上
 
-        border = 15
+        border = 0
 
         # left, right
         x_l, x_r = con_list[0][0][0]-border, con_list[2][0][0]+border 
@@ -49,15 +49,15 @@ def main(image_path):
         gray1 = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
         ret, th1 = cv2.threshold(gray1,150 , 255, cv2.THRESH_BINARY)
 
-        dilation = cv2.dilate(th1 , kernel2, iterations = 2)
+        # dilation = cv2.dilate(th1 , kernel2, iterations = 2)
         # cv2.imshow('dilation{}'.format(i), dilation)
 
-        thresh = cv2.threshold(dilation, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-        # cv2.imshow('thresh{}'.format(i), thresh)
+        thresh = cv2.threshold(th1, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+        cv2.imshow('thresh{}'.format(i), thresh)
 
         contours2, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         img_contour = cv2.drawContours(crop_img, contours2, -1, (0, 255, 0), 2)
-        # cv2.imshow('img_contour{}'.format(i), img_contour)
+        cv2.imshow('img_contour{}'.format(i), img_contour)
 
         M = cv2.moments(contours2[0])
         center_x = int(M["m10"] / M["m00"])
