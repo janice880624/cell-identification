@@ -47,7 +47,7 @@ def main(image_path):
         crop_img = image[y_u:y_d, x_l:x_r]
 
         gray1 = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
-        ret, th1 = cv2.threshold(gray1,150 , 255, cv2.THRESH_BINARY)
+        ret, th1 = cv2.threshold(gray1, 150, 255, cv2.THRESH_BINARY)
 
         # dilation = cv2.dilate(th1 , kernel2, iterations = 2)
         # cv2.imshow('dilation{}'.format(i), dilation)
