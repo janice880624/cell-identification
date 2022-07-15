@@ -7,9 +7,6 @@ path = "exp20/img(843).png"
 point = []
 def main(image_path):
 
-  kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
-  kernel2 = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
-
   ok = True
   while ok:
     image = cv2.imread(image_path)  
