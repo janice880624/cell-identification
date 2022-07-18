@@ -67,3 +67,16 @@ center_x = int(M["m10"] / M["m00"])
 center_y = int(M["m01"] / M["m00"])
 print('center_x = {}, center_y = {}'.format(center_x, center_y))
 ```
+
+### result
+* (1) => original img
+* (2) => boxed cells
+* (3) => pick a box
+* (4) => out of the box
+
+![](img/test01/1.png)
+
+* (5) => image thresholding
+* (6) => mark the center of gravity
+
+![](img/test01/2.png)
