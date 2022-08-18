@@ -50,11 +50,11 @@ def main(image_path):
         # cv2.imshow('dilation{}'.format(i), dilation)
 
         thresh = cv2.threshold(th1, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-        # cv2.imshow('thresh{}'.format(i), thresh)
+        cv2.imshow('thresh{}'.format(i), thresh)
 
         contours2, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         img_contour = cv2.drawContours(crop_img, contours2, -1, (0, 255, 0), 2)
-        # cv2.imshow('img_contour{}'.format(i), img_contour)
+        cv2.imshow('img_contour{}'.format(i), img_contour)
 
         M = cv2.moments(contours2[0])
         center_x = int(M["m10"] / M["m00"])
@@ -62,7 +62,7 @@ def main(image_path):
         print('center_x = {}, center_y = {}'.format(center_x, center_y))
         img_center = cv2.circle(crop_img, (center_x,center_y), 7, 128, -1)#繪製中心點
 
-        # cv2.imshow('img_center{}'.format(i), img_center)
+        cv2.imshow('img_center{}'.format(i), img_center)
         point.append((center_x, x_l, center_y, y_u))
 
       else:
