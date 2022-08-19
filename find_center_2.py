@@ -1,12 +1,21 @@
 # created by janice
-# start at 2022/07/08
+# start at 2022/08/18
 
 import cv2
+import numpy as np
 
-yolo_path = "exp20/img(843).png"
-face_path = "face2/cell (843).png"
+kernel = np.ones((3, 3),int)
+kernel2 = np.ones((6, 6),int)
+
+num = 100
+# num = 400
+
+yolo_path = "exp20/img({}).png".format(num)
+face_path = "face2/cell ({}).png".format(num)
 
 point = []
+cv_contours = []
+
 def main(yolo_path, face_path):
 
   ok = True
@@ -31,7 +40,7 @@ def main(yolo_path, face_path):
 
         con_list = contours[i].tolist()
 
-        border = 0
+        border = 5
 
         # left, right
         x_l, x_r = con_list[0][0][0]-border, con_list[2][0][0]+border 
@@ -42,26 +51,39 @@ def main(yolo_path, face_path):
         crop_img = image2[y_u:y_d, x_l:x_r]
 
         gray1 = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
-        cv2.imshow('gray1{}'.format(i), gray1)
+        cv2.imshow('gray{}'.format(i), gray1)
 
-        ret, th1 = cv2.threshold(gray1, 130, 255, cv2.THRESH_BINARY)
+        histoNorm = cv2.equalizeHist(gray1)
+        cv2.imshow('histoNorm{}'.format(i), histoNorm)
+
+        ret, th1 = cv2.threshold(histoNorm, 165, 235, cv2.THRESH_BINARY)
         cv2.imshow('th1{}'.format(i), th1)
 
-        thresh = cv2.threshold(th1, 175, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+        thresh = cv2.threshold(th1, 160, 235, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
         cv2.imshow('thresh{}'.format(i), thresh)
 
-        contours2, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        img_contour = cv2.drawContours(crop_img, contours2, -1, (0, 255, 0), 2)
-        cv2.imshow('img_contour{}'.format(i), img_contour)
+        cell_close = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+        cv2.imshow('cell_close{}'.format(i), cell_close)
 
-        M = cv2.moments(contours2[0])
-        center_x = int(M["m10"] / M["m00"])
-        center_y = int(M["m01"] / M["m00"])
-        print('center_x = {}, center_y = {}'.format(center_x, center_y))
-        img_center = cv2.circle(crop_img, (center_x,center_y), 7, 128, -1)#繪製中心點
+        cell_erode = cv2.erode(cell_close, kernel2, iterations=1)
+        cv2.imshow('cell_erode{}'.format(i), cell_erode)
 
-        cv2.imshow('img_center{}'.format(i), img_center)
-        point.append((center_x, x_l, center_y, y_u))
+        cell_remove = cv2.remove_small_holes(cell_erode, 20)
+        cv2.imshow('cell_remove{}'.format(i), cell_remove)
+
+
+        # contours2, hierarchy = cv2.findContours(cell_close, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # img_contour = cv2.drawContours(crop_img, contours2, -1, (0, 255, 0), 2)
+        # cv2.imshow('img_contour{}'.format(i), img_contour)
+
+        # M = cv2.moments(contours2[0])
+        # center_x = int(M["m10"] / M["m00"])
+        # center_y = int(M["m01"] / M["m00"])
+        # print('center_x = {}, center_y = {}'.format(center_x, center_y))
+        # img_center = cv2.circle(img_contour, (center_x,center_y), 7, 128, -1)#繪製中心點
+
+        # cv2.imshow('img_center{}'.format(i), img_center)
+        # point.append((center_x, x_l, center_y, y_u))
 
       else:
         continue

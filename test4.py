@@ -12,7 +12,7 @@ def main():
   while ok:
 
     # read original image
-    image = cv2.imread("face2/cell (843).png")
+    image = cv2.imread("face2/cell (100).png")
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     cv2.imshow('gray.png', gray)
