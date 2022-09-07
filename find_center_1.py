@@ -3,7 +3,7 @@
 
 import cv2
 
-path = "exp20/img(843).png"
+path = "exp20/img(76).png"
 point = []
 def main(image_path):
 
@@ -33,7 +33,7 @@ def main(image_path):
         # print(con_list[2][0]) # 右下
         # print(con_list[3][0]) # 右上
 
-        border = 0
+        border = 5
 
         # left, right
         x_l, x_r = con_list[0][0][0]-border, con_list[2][0][0]+border 
@@ -42,9 +42,10 @@ def main(image_path):
         y_u, y_d = con_list[0][0][1]-border, con_list[1][0][1]+border
 
         crop_img = image[y_u:y_d, x_l:x_r]
+        cv2.imshow('dilation{}'.format(i), crop_img)
 
         gray1 = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
-        ret, th1 = cv2.threshold(gray1, 150, 255, cv2.THRESH_BINARY)
+        ret, th1 = cv2.threshold(gray1, 175, 235, cv2.THRESH_BINARY)
 
         # dilation = cv2.dilate(th1 , kernel2, iterations = 2)
         # cv2.imshow('dilation{}'.format(i), dilation)
@@ -56,14 +57,14 @@ def main(image_path):
         img_contour = cv2.drawContours(crop_img, contours2, -1, (0, 255, 0), 2)
         cv2.imshow('img_contour{}'.format(i), img_contour)
 
-        M = cv2.moments(contours2[0])
-        center_x = int(M["m10"] / M["m00"])
-        center_y = int(M["m01"] / M["m00"])
-        print('center_x = {}, center_y = {}'.format(center_x, center_y))
-        img_center = cv2.circle(crop_img, (center_x,center_y), 7, 128, -1)#繪製中心點
+        # M = cv2.moments(contours2[0])
+        # center_x = int(M["m10"] / M["m00"])
+        # center_y = int(M["m01"] / M["m00"])
+        # print('center_x = {}, center_y = {}'.format(center_x, center_y))
+        # img_center = cv2.circle(crop_img, (center_x,center_y), 7, 128, -1)#繪製中心點
 
-        cv2.imshow('img_center{}'.format(i), img_center)
-        point.append((center_x, x_l, center_y, y_u))
+        # cv2.imshow('img_center{}'.format(i), img_center)
+        # point.append((center_x, x_l, center_y, y_u))
 
       else:
         continue
